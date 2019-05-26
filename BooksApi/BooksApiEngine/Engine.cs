@@ -118,5 +118,17 @@ namespace BooksApiEngine
             }
             return null;
         }
+
+        public static async Task<Volume> RetrieveBookById(string bookId)
+        {
+            Console.WriteLine("Retrieving book with ID {0}...", bookId);
+            // Call API to retrieve book with the specific ID.
+            var result = await service.Volumes.Get(bookId).ExecuteAsync();
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
     }
 }
