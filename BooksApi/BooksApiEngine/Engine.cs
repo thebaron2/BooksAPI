@@ -51,7 +51,7 @@ namespace BooksApiEngine
             {
                 HttpClientInitializer = credential,
                 ApiKey = keys["api_key"],
-                ApplicationName = "Test"
+                ApplicationName = "Books API Console"
             });
         }
 
@@ -82,9 +82,9 @@ namespace BooksApiEngine
         /// <returns>
         /// A <c>Task</c> object of type <c>Bookshelves</c>.
         /// </returns>
-        public static async Task<Bookshelves> ListAllMyShelves(string userId)
+        public static async Task<Bookshelves> ListMyShelves()
         {
-            Console.WriteLine("Listing all bookshelves of user with ID {0}...", userId);
+            Console.WriteLine("Listing all MY bookshelves ...");
             // Call API to retrieve bookshelves from Mylibrary.
             var result = await service.Mylibrary.Bookshelves.List().ExecuteAsync();
             // Check if result is not null.
