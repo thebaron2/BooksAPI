@@ -75,6 +75,46 @@ namespace BooksApiEngine
         }
 
         /// <summary>
+        /// Converts the returned object of the API to a JSON string.
+        /// This string is then written to a file.
+        /// </summary>
+        /// <param name="googleObject">
+        /// The object that is to be converted.
+        /// </param>
+        public static void ConvertToJson(Object googleObject)
+        {
+            if (googleObject is Bookshelves)
+            {
+                string json = JsonConvert.SerializeObject(googleObject);
+                WriteToJson(json, "shelves.json");
+            }
+            else if (googleObject is Volumes)
+            {
+                string json = JsonConvert.SerializeObject(googleObject);
+                WriteToJson(json, "booksOnShelf.json");
+            }
+            else if (googleObject is Volume)
+            {
+                string json = JsonConvert.SerializeObject(googleObject);
+                WriteToJson(json, "book.json");
+            }
+            else
+            {
+                Console.WriteLine("Couldn't convert that object to a JSON string.")
+            }
+        }
+
+        /// <summary>
+        /// Writes a JSON object to the specified file.
+        /// </summary>
+        /// <param name="json">The JSON string</param>
+        /// <param name="file">The name of the file to which it will be written</param>
+        private static void WriteToJson(string json, string file)
+        {
+            File.WriteAllText(@"c:\users\owena\jsonFiles\" + file, json);
+        }
+
+        /// <summary>
         /// Retrieves all <c>Bookshelves</c> in <c>Mylibrary</c>.
         /// Before returning it persists the returned object to a json file in the
         /// home directory.
@@ -90,8 +130,7 @@ namespace BooksApiEngine
             // Check if result is not null.
             if (result != null && result.Items != null)
             {
-                string json = JsonConvert.SerializeObject(result);
-                File.WriteAllText(@"c:\users\owena\jsonFiles\shelves.json", json);
+                ConvertToJson(result);
                 return result;
             }
             return null;
@@ -118,8 +157,7 @@ namespace BooksApiEngine
             // Check if result is not null.
             if (result != null && result.Items != null)
             {
-                string json = JsonConvert.SerializeObject(result);
-                File.WriteAllText(@"c:\users\owena\jsonFiles\booksOnShelf.json", json);
+                ConvertToJson(result);
                 return result;
             }
             return null;
@@ -169,8 +207,7 @@ namespace BooksApiEngine
                 {
                     if (book.Id == bookId)
                     {
-                        string json = JsonConvert.SerializeObject(result);
-                        File.WriteAllText(@"c:\users\owena\jsonFiles\book.json", json);
+                        ConvertToJson(book);
                         return book;
                     }
                     return null;

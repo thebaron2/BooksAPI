@@ -69,6 +69,15 @@ namespace BooksConsole
                 Environment.Exit(0);
         }
 
+        //private static void WriteOptions()
+        //{
+        //    string answer = "";
+        //    Console.WriteLine("Do you wish to write this to a JSON file?\n" +
+        //        "Type 'y' (yes) or 'n' (no).");
+        //    answer = Console.ReadLine();
+        //    CheckAnswer(answer);
+        //}
+
         private static void LoadShelvesOfUser()
         {
             var booksShelves = Engine.RetrieveMyShelves();
