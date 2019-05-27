@@ -91,7 +91,7 @@ namespace BooksApiEngine
             if (result != null && result.Items != null)
             {
                 string json = JsonConvert.SerializeObject(result);
-                File.WriteAllText(@"c:\users\owena\shelves.json", json);
+                File.WriteAllText(@"c:\users\owena\jsonFiles\shelves.json", json);
                 return result;
             }
             return null;
@@ -119,7 +119,7 @@ namespace BooksApiEngine
             if (result != null && result.Items != null)
             {
                 string json = JsonConvert.SerializeObject(result);
-                File.WriteAllText(@"c:\users\owena\booksOnShelf.json", json);
+                File.WriteAllText(@"c:\users\owena\jsonFiles\booksOnShelf.json", json);
                 return result;
             }
             return null;

@@ -61,8 +61,10 @@ namespace BooksConsole
             if (answer == "1")
                 LoadShelvesOfUser();
             else if (answer == "2")
-                // TODO: replace hardcoded shelfID with a dynamic one
-                LoadVolumesOnShelf();
+            {
+                string shelfId = AskShelfId();
+                LoadVolumesOnShelf(shelfId);
+            }
             else if (answer == "0")
                 Environment.Exit(0);
         }
@@ -81,52 +83,70 @@ namespace BooksConsole
             Console.WriteLine("------------------------------------------------------------------------\n");
         }
 
-        private static void LoadVolumesOnShelf()
+        private static string AskShelfId()
         {
             // Ask for a shelfId.
             Console.WriteLine("Please type the ID of the shelf you wish to use:");
             string answer = Console.ReadLine();
             // Parse it to an Int for easier comparison.
-            int answeredShelfId = Int32.Parse(answer);
-            Console.WriteLine("Looking for shelf with ID {0}...", answeredShelfId);
+            int shelfId = Int32.Parse(answer);
+            Console.WriteLine("Looking for shelf with ID {0}...", shelfId);
+            if (CheckShelfId(shelfId))
+            {
+                return answer;
+            }
+            return "Couldn't find shelf with ID " + answer + "!\n";
+        }
 
+        private static bool CheckShelfId(int shelfId)
+        {
             // Looking through my shelves to find the shelf with the specified ID.
             var shelves = Engine.RetrieveMyShelves().Result.Items;
+
             foreach (var shelf in shelves)
             {
-                // When found, list books on that shelf.
-                if (answeredShelfId == shelf.Id)
+                if (shelfId == shelf.Id)
                 {
-                    Console.WriteLine("Found shelf with ID {0}.\n", answeredShelfId);
-                    var volumes = Engine.RetrieveVolumesOnShelf(answer);
-                    try
-                    {
-                        var books = volumes.Result.Items;
-                        Console.WriteLine("------------------------------------------------------------------------");
-                        foreach (var book in books)
-                        {
-                            Console.WriteLine("Book ID: {0}\n" +
-                                "Book Name: {1}\n" +
-                                "Authors:", book.Id, book.VolumeInfo.Title);
-                            foreach (var author in book.VolumeInfo.Authors)
-                            {
-                                Console.WriteLine("\tAuthor: {0}", author);
-                            }
-                        }
-                        Console.WriteLine("------------------------------------------------------------------------\n");
-                    }
-                    catch (NullReferenceException)
-                    {
-                        Console.WriteLine("No books found!");
-                    } 
+                    return true;
                 }
-                else
+                continue;
+            }
+            return false;
+        }
+
+        private static void LoadVolumesOnShelf(string shelfId)
+        {
+            int x = 0;
+            // Checks if a string is returned that can be converted to an int.
+            if (Int32.TryParse(shelfId, out x))
+            {
+                Console.WriteLine("Found shelf with ID {0}.\n", shelfId);
+                var volumes = Engine.RetrieveVolumesOnShelf(shelfId);
+                try
                 {
-                    continue;
+                    var books = volumes.Result.Items;
+                    Console.WriteLine("------------------------------------------------------------------------");
+                    foreach (var book in books)
+                    {
+                        Console.WriteLine("Book ID: {0}\n" +
+                            "Book Name: {1}\n" +
+                            "Authors:", book.Id, book.VolumeInfo.Title);
+                        foreach (var author in book.VolumeInfo.Authors)
+                        {
+                            Console.WriteLine("\tAuthor: {0}", author);
+                        }
+                    }
+                    Console.WriteLine("------------------------------------------------------------------------\n");
+                }
+                catch (NullReferenceException)
+                {
+                    Console.WriteLine("No books found!");
                 }
             }
-
-            
+            else
+            {
+                Console.WriteLine(shelfId);
+            }
         }
     }
 }
