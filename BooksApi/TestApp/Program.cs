@@ -9,7 +9,7 @@ namespace TestApp
 {
     class Program
     {
-        private static readonly string filePath = "C:/Users/owena/git/BooksAPI/BooksAPI/BooksApi/BooksConsole/config.txt";
+        private static readonly string filePath = "C:/Users/owena/git/BooksAPI/BooksAPI/BooksApi/BooksApiEngine/config.txt";
 
         static void Main(string[] args)
         {
@@ -35,6 +35,11 @@ namespace TestApp
             var book = output.Result;
             Console.WriteLine("------------------------------------------------------------------------");
             Console.WriteLine("Book name: {0}", book.VolumeInfo.Title);
+            Console.WriteLine("------------------------------------------------------------------------\n");
+
+            var book2 = Engine.RetrieveBookByIdOnShelf("0", bookId).Result;
+            Console.WriteLine("------------------------------------------------------------------------");
+            Console.WriteLine("Book ID: {0}\nBook title: {1}", book2.Id, book.VolumeInfo.Title);
             Console.WriteLine("------------------------------------------------------------------------\n");
         }
     }
