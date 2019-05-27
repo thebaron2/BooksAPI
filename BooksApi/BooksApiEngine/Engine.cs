@@ -11,6 +11,7 @@ using Google.Apis.Books.v1;
 using Google.Apis.Books.v1.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using Newtonsoft.Json;
 
 namespace BooksApiEngine
 {
@@ -88,6 +89,9 @@ namespace BooksApiEngine
             // Check if result is not null.
             if (result != null && result.Items != null)
             {
+                // TODO: move writing to file to a seperate function
+                string json = JsonConvert.SerializeObject(result);
+                File.WriteAllText(@"c:\users\owena\shelves.json", json);
                 return result;
             }
             return null;
