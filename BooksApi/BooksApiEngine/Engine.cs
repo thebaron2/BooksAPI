@@ -56,7 +56,7 @@ namespace BooksApiEngine
 
         /// <summary>
         /// Reads the config file and stores the client id, 
-        /// secret and api key in a dictionary
+        /// secret and api key in a dictionary.
         /// </summary>
         /// <param name="filePath">String that points to the location of the file.</param>
         /// <returns>
@@ -76,8 +76,9 @@ namespace BooksApiEngine
 
         /// <summary>
         /// Retrieves all <c>Bookshelves</c> in <c>Mylibrary</c>.
+        /// Before returning it persists the returned object to a json file in the
+        /// home directory.
         /// </summary>
-        /// <param name="userId"></param>
         /// <returns>
         /// A <c>Task</c> object of type <c>Bookshelves</c>.
         /// </returns>
@@ -89,7 +90,6 @@ namespace BooksApiEngine
             // Check if result is not null.
             if (result != null && result.Items != null)
             {
-                // TODO: move writing to file to a seperate function
                 string json = JsonConvert.SerializeObject(result);
                 File.WriteAllText(@"c:\users\owena\shelves.json", json);
                 return result;
@@ -100,6 +100,8 @@ namespace BooksApiEngine
         /// <summary>
         /// Retrieves all <c>Volumes</c> on a specific bookshelf 
         /// in <c>Mylibrary</c>.
+        /// Before returning it persists the returned object to a json file in the
+        /// home directory.
         /// </summary>
         /// <param name="shelfId">
         /// A string representing the shelfId
@@ -116,6 +118,8 @@ namespace BooksApiEngine
             // Check if result is not null.
             if (result != null && result.Items != null)
             {
+                string json = JsonConvert.SerializeObject(result);
+                File.WriteAllText(@"c:\users\owena\booksOnShelf.json", json);
                 return result;
             }
             return null;
@@ -147,6 +151,8 @@ namespace BooksApiEngine
         /// <summary>
         /// Retrieves a book by its ID on a specific shelf.
         /// This function does make use of private data, and requires authentication.
+        /// Before returning it persists the returned object to a json file in the
+        /// home directory.
         /// </summary>
         /// <param name="shelfId">A string</param>
         /// <param name="bookId">A string</param>
@@ -163,6 +169,8 @@ namespace BooksApiEngine
                 {
                     if (book.Id == bookId)
                     {
+                        string json = JsonConvert.SerializeObject(result);
+                        File.WriteAllText(@"c:\users\owena\jsonFiles\book.json", json);
                         return book;
                     }
                     return null;
