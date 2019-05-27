@@ -16,9 +16,7 @@ namespace BooksApiEngine
 {
     public class Engine
     {
-        public static BooksService service = new BooksService(new BaseClientService.Initializer
-        {
-        });
+        public static BooksService service = new BooksService(new BaseClientService.Initializer{});
 
         /// <summary>
         /// Creates a new <c>BooksService</c> object in place of the empty one created above.
@@ -82,7 +80,7 @@ namespace BooksApiEngine
         /// <returns>
         /// A <c>Task</c> object of type <c>Bookshelves</c>.
         /// </returns>
-        public static async Task<Bookshelves> ListMyShelves()
+        public static async Task<Bookshelves> RetrieveMyShelves()
         {
             Console.WriteLine("Listing all MY bookshelves ...");
             // Call API to retrieve bookshelves from Mylibrary.
@@ -106,7 +104,7 @@ namespace BooksApiEngine
         /// <returns>
         /// A <c>Task</c> object of type <c>Volumes</c>
         /// </returns>
-        public static async Task<Volumes> ListVolumesOnShelf(string shelfId)
+        public static async Task<Volumes> RetrieveVolumesOnShelf(string shelfId)
         {
             Console.WriteLine("Listing volumes on shelf with ID {0}...", shelfId);
             // Call API to retrieve Volumes on the specific bookshelf.
@@ -115,6 +113,56 @@ namespace BooksApiEngine
             if (result != null && result.Items != null)
             {
                 return result;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieves a Book by its ID.
+        /// Makes use of public data instead of private data.
+        /// Might be redundant.
+        /// </summary>
+        /// <param name="bookId">
+        /// The ID of the book in string format.
+        /// </param>
+        /// <returns>
+        /// A <c>Task</c> object of type <c>Volume</c>.
+        /// </returns>
+        public static async Task<Volume> RetrieveBookById(string bookId)
+        {
+            Console.WriteLine("Retrieving book with ID {0}...", bookId);
+            // Call API to retrieve book with the specific ID
+            var result = await service.Volumes.Get(bookId).ExecuteAsync();
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieves a book by its ID on a specific shelf.
+        /// This function does make use of private data, and requires authentication.
+        /// </summary>
+        /// <param name="shelfId">A string</param>
+        /// <param name="bookId">A string</param>
+        /// <returns>
+        /// A <c>Task</c> object of type <c>Volume</c>.
+        /// </returns>
+        public static async Task<Volume> RetrieveBookByIdOnShelf(string shelfId, string bookId)
+        {
+            Console.WriteLine("Retrieving book with ID '{0}' on shelf with ID '{1}'", bookId, shelfId);
+            var result = await service.Mylibrary.Bookshelves.Volumes.List(shelfId).ExecuteAsync();
+            if (result != null)
+            {
+                foreach (Volume book in result.Items)
+                {
+                    if (book.Id == bookId)
+                    {
+                        return book;
+                    }
+                    return null;
+                }
             }
             return null;
         }
