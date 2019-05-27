@@ -69,7 +69,7 @@ namespace BooksConsole
 
         private static void LoadShelvesOfUser()
         {
-            var booksShelves = Engine.ListMyShelves();
+            var booksShelves = Engine.RetrieveMyShelves();
             var shelves = booksShelves.Result.Items;
             Console.WriteLine("------------------------------------------------------------------------");
             foreach (var shelf in shelves)
@@ -83,7 +83,7 @@ namespace BooksConsole
 
         private static void LoadVolumesOnShelf(string shelfId)
         {
-            var volumes = Engine.ListVolumesOnShelf(shelfId);
+            var volumes = Engine.RetrieveVolumesOnShelf(shelfId);
             var books = volumes.Result.Items;
             Console.WriteLine("------------------------------------------------------------------------");
             foreach (var book in books)

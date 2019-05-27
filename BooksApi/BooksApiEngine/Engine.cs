@@ -82,7 +82,7 @@ namespace BooksApiEngine
         /// <returns>
         /// A <c>Task</c> object of type <c>Bookshelves</c>.
         /// </returns>
-        public static async Task<Bookshelves> ListMyShelves()
+        public static async Task<Bookshelves> RetrieveMyShelves()
         {
             Console.WriteLine("Listing all MY bookshelves ...");
             // Call API to retrieve bookshelves from Mylibrary.
@@ -106,7 +106,7 @@ namespace BooksApiEngine
         /// <returns>
         /// A <c>Task</c> object of type <c>Volumes</c>
         /// </returns>
-        public static async Task<Volumes> ListVolumesOnShelf(string shelfId)
+        public static async Task<Volumes> RetrieveVolumesOnShelf(string shelfId)
         {
             Console.WriteLine("Listing volumes on shelf with ID {0}...", shelfId);
             // Call API to retrieve Volumes on the specific bookshelf.
