@@ -16,9 +16,7 @@ namespace BooksApiEngine
 {
     public class Engine
     {
-        public static BooksService service = new BooksService(new BaseClientService.Initializer
-        {
-        });
+        public static BooksService service = new BooksService(new BaseClientService.Initializer{});
 
         /// <summary>
         /// Creates a new <c>BooksService</c> object in place of the empty one created above.
