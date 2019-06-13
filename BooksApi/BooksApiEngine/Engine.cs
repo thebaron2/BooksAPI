@@ -45,7 +45,7 @@ namespace BooksApiEngine
                 CancellationToken.None,
                 new FileDataStore("Books.ListMyLibrary"));
 
-            // Create the new BooksService in place of the old empty one.
+            // Create the new BooksService in place of the old empty one, with the api_key and UserCredential object.
             service = new BooksService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
