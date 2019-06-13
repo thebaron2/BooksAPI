@@ -200,6 +200,7 @@ namespace BooksApiEngine
         public static async Task<Volume> RetrieveBookByIdOnShelf(string shelfId, string bookId)
         {
             Console.WriteLine("Retrieving book with ID '{0}' on shelf with ID '{1}'", bookId, shelfId);
+            // Call the API
             var result = await service.Mylibrary.Bookshelves.Volumes.List(shelfId).ExecuteAsync();
             if (result != null)
             {
@@ -207,6 +208,7 @@ namespace BooksApiEngine
                 {
                     if (book.Id == bookId)
                     {
+                        // Convert to JSON
                         ConvertToJson(book);
                         return book;
                     }
